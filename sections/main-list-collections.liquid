@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <h2 class="list-collections-title">
+        {{ section.settings.title }}
+    </h2>
+
+    {% for collection in collections %}
+    <div id="list-collections">
+        {% comment %}<span style="background-color: red;">{{ collection.handle }}</span>{% endcomment %}
+
+            {% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+            {% for product in collection.products limit: 1 %}
+                <div class="list-collections-item">
+                    <a href="{{ collection.url }}">
+                        <img class="" src="{{ product.featured_image.src | image_url: width: 1200, height: 1200, crop: "center" }}" alt="{{ product.featured_image.alt | escape }}">
+                    </a>
+                </div>
+            {% endfor %}
+            <a class="text-link" href="{{ collection.url }}">{{ collection_title }}</a>
+    </div>
+    {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-list-collections.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Collections"
+    }
+  ]
+}
+{% endschema %}

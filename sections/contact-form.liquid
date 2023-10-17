@@ -1,0 +1,41 @@
+<div id="contact-page" class="wrapper valign-center">
+    <div class="page-inner">
+        <h2 class="page-title ta-center">{{ page.title }}</h2>
+        <div class="page-content">{{ page.content }}</div>
+
+        {% form 'contact' %}
+            {% if form.posted_successfully? %}
+                {{ 'page.contact_form.posted_successfully' | t }}
+            {% elsif form.errors %}
+                {{ 'page.contact_form.error_occurred' | t }}
+            {% endif %}
+            {{ form.errors | default_errors }}
+
+            <div class="contact-fields">
+                <div class="field">
+                    <label class="field__label visually-hidden" for="ContactFormName">name</label>
+                    <input class="field-input" type="text" id="ContactFormName" name="contact[name]" placeholder="Name">
+                </div>
+
+                <div class="field">
+                    <label class="field__label visually-hidden" for="ContactFormEmail">email</label>
+                    <input class="field-input" type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="field__label visually-hidden" for="ContactFormPhone">phone</label>
+                <input class="field-input" type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="Phone">
+            </div>
+
+            <div class="field">
+                <label class="field__label visually-hidden" for="ContactFormMessage">message</label>
+                <textarea class="text-area field-input" rows="10" id="ContactFormMessage" name="contact[body]" placeholder="Message"></textarea>
+            </div>
+
+            <div class="contact-button">
+                <button class="button contact-form-button" type="submit">{{ 'page.contact_form.submit_button' | t }}</button>
+            </div>
+        {% endform %}
+    </div>
+</div>

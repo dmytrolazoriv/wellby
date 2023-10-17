@@ -1,0 +1,6 @@
+<a class="hotspot__product-link product-link hotspot" href="{{ product_url }}" data-link="number-{{ product_number }}"></a>
+<div id="number-{{ product_number }}" class="product-link__content product-link" style="display: none;">
+    <h3 class="product-link__title">{{ product_title }}</h3>
+    <p class="product-link__price">{{ product_price | money_without_trailing_zeros }}</p>
+</div>
+{% comment %} <div class="hotspot"></div> {% endcomment %}

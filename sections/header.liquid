@@ -1,0 +1,40 @@
+<header class="header-global flex-space-between">
+    {%- if section.settings.logo !=blank -%}
+        <a href="{{ routes.root_url }}" class="logo">
+            <img
+                    src="{{ section.settings.logo | image_url: width: section.settings.logo.width }}"
+                    alt="{{ section.settings.logo.alt | escape }}"
+                    loading="lazy"
+                    width="{{ section.settings.logo.width }}"
+                    height="{{ section.settings.logo.height }}"
+            >
+        </a>
+    {%- endif -%}
+
+    {% liquid
+        assign cart_text = 'cart.button.count_html' | t: itemCount: cart.item_count
+        assign cart_close_text = 'cart.button.close' | t
+    %}
+
+    <div class="header-right-side">
+        <a class="cart-link text-link spaced-caps" href="{{ routes.search_url }}">{{ 'general.search.search' | t }}</a>
+        <a class="shop-link text-link spaced-caps" href="{{ routes.root_url }}">{{ 'header.nav.shop' | t }}</a>
+        <a href="{{ routes.cart_url }}" class="cart-link js-cart-link text-link spaced-caps">
+            <span class="cart-text">{{ cart_text }}</span>
+            <span class="cart-close-text">{{ cart_close_text }}</span>
+        </a>
+    </div>
+</header>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ]
+}
+{% endschema %}

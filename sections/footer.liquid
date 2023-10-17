@@ -1,0 +1,181 @@
+{% liquid
+    assign copyright_date = 'now' | date: '%Y'
+    assign instagram_url = 'https://www.instagram.com/'
+    assign twitter_url = 'https://twitter.com/'
+%}
+
+<footer class="footer-global">
+
+
+    <div class="footer-top grid">
+        {%- for block in section.blocks -%}
+        {%- case block.type -%}
+            {%- when 'products_menu' -%}
+            {% comment %}<ul class="products-list" data-spollers="767.98" {{ block.shopify_attributes }}>
+            <h4 class="spaced-caps">{{ 'footer.list.products' | t }}</h4>
+            {% for product in collections.frontpage.products limit: block.settings.products_title_to_show %}
+                <li>
+                    <a class="h2" href="{{ product.url }}">{{ product.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>{% endcomment %}
+        <div class="body-footer__item products-list">
+            <div data-spollers="767.98" class="products-list__spoller spoller-item-footer" {{ block.shopify_attributes }}>
+                <div class="spoller-item-footer__item">
+                    <button type="button" data-spoller class="spoller-item-footer__title">
+                        <h4 class="spaced-caps">{{ 'footer.list.products' | t }}<span class="arrow-down">{% render 'arrow' %}</span></h4>
+                    </button>
+                    <div class="spoller-item-footer__body">
+                        <nav class="menu-footer">
+                            <ul class="menu-footer__list">
+                                {% for product in collections.frontpage.products limit: block.settings.products_title_to_show %}
+                                <li class="menu-footer__item">
+                                    <a class="h2 menu-footer__link" href="{{ product.url }}">{{ product.title }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {%- when 'menu' -%}
+      {% if block.settings.menu != blank %}
+          <div class="body-footer__item contact-list">
+              <div data-spollers="767.98" class="contact-list__spoller spoller-item-footer" {{ block.shopify_attributes }}>
+                  <div class="spoller-item-footer__item">
+                      <button type="button" data-spoller class="spoller-item-footer__title">
+                          <h4 class="spaced-caps">{{ linklists.footer.title }}<span class="arrow-down">{% render 'arrow' %}</span></h4>
+                      </button>
+                      <div class="spoller-item-footer__body">
+                          <nav class="menu-footer">
+                              <ul class="menu-footer__list">
+                                  {% for link in block.settings.menu.links %}
+                                      <li class="menu-footer__item">
+                                          <a class="menu-footer__link" href="{{ link.url }}">{{ link.title }}</a>
+                                      </li>
+                                  {% endfor %}
+                              </ul>
+                          </nav>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      {% endif %}
+
+    {%- when 'about' -%}
+        <div class="body-footer__item about-us">
+            <div data-spollers="767.98" class="about-us__spoller spoller-item-footer" {{ block.shopify_attributes }}>
+                <div class="spoller-item-footer__item">
+                    <button type="button" data-spoller class="spoller-item-footer__title">
+                        <h4 class="spaced-caps">{{ block.settings.about_title }}<span class="arrow-down">{% render 'arrow' %}</span></h4>
+                    </button>
+                    <div class="spoller-item-footer__body">
+                        <p>{{ block.settings.about_description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom flex-space-between">
+
+        <span class="h4">{{ 'footer.bottom.copyright' | t: date: copyright_date }}</span>
+
+        {%- when 'social' -%}
+        {%- if block.settings.show_social -%}
+        <div class="social-links" {{ block.shopify_attributes }}>
+            {%- if settings.social_facebook_link != blank -%}
+                <a href="{{ settings.social_facebook_link }}" target="_blank">
+                    <img src="{{ 'facebook.svg' | asset_url }}" alt="{{ 'footer.social.alt' | t: social: 'Facebook' }}">
+                </a>
+            {%- endif -%}
+            {%- if settings.social_instagram_link != blank -%}
+            {% comment %}<a href="{{ 'footer.social.instagram_handle' | t | prepend: instagram_url }}" target="_blank">{% endcomment %}
+                <a href="{{ settings.social_instagram_link }}" target="_blank">
+                    <img src="{{ 'instagram.svg' | asset_url }}" alt="{{ 'footer.social.alt' | t: social: 'Instagram' }}">
+                </a>
+            {%- endif -%}
+            {%- if settings.social_twitter_link != blank -%}
+            <a href="{{ settings.social_twitter_link }}" target="_blank">
+                <img src="{{ 'twitter.svg' | asset_url }}" alt="{{ 'footer.social.alt' | t: social: 'Twitter' }}">
+            </a>
+            {%- endif -%}
+        </div>
+        {%- endif -%}
+    </div>
+
+        {%- endcase -%}
+    {%- endfor -%}
+
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+          {
+            "type": "link_list",
+            "id": "menu",
+            "default": "footer",
+            "label": "Menu"
+          }
+        ]
+    },
+  {
+    "type": "products_menu",
+    "name": "Products menu",
+    "settings": [
+        {
+          "type": "range",
+          "id": "products_title_to_show",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "default": 4,
+          "label": "Title of products"
+        }
+    ]
+  },
+  {
+      "type": "about",
+      "name": "About us info",
+      "settings": [
+        {
+          "type": "text",
+          "id": "about_title",
+          "label": "Title",
+          "default": "ABOUT US"
+        },
+        {
+          "type": "textarea",
+          "id": "about_description",
+          "label": "Description",
+          "default": "We're a lifestyle shop selling a limited assortment of products handmade in our Silver Lake, Los Angeles studio. We are fueled by the joys we've found in some of life's simplest things, and we apply that joy to each of our creations."
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social media",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "default": true,
+          "label": "Show social media icons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

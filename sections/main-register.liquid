@@ -1,0 +1,88 @@
+<div class="wrapper inner-wrapper customer-register">
+
+    <h2>{{ 'customer.register.title' | t }}</h2>
+    <div class="customer-register__form-wrapper register-form">
+
+        {% form 'create_customer' %}
+
+        {%- if form.errors -%}
+          <h3>Please adjust the following:</h3>
+          <ul class="register-form__errors-list">
+              {%- for error in form.errors -%}
+                  <li class="register-form__errors-item">
+                      {%- if error == "form" -%}
+                        {{ form.errors.messages[error] }}
+                      {%- else -%}
+                          <a class="register-form__errors-link" href="#register-form-{{ error }}">
+                              {{ form.errors.translated_fields[error] | capitalize }}
+                              {{ form.errors.messages[error] }}
+                          </a>
+                      {%- endif -%}
+                  </li>
+              {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <div class="register-form__field">
+            <label class="field__label visually-hidden" for="register-form-first_name">First Name</label>
+            <input class="field-input"
+                   id="register-form-first_name"
+                   type="text"
+                    {% if form.first_name %}
+                        value="{{ form.first_name }}"
+                    {% endif %}
+                   name="customer[first_name]"
+                   placeholder="First name">
+        </div>
+
+        <div class="register-form__field">
+            <label class="field__label visually-hidden" for="register-form-last_name">Last Name</label>
+            <input 
+                    id="register-form-last_name"
+                    class="field-input"
+                    type="text"
+                    {% if form.last_name %}
+                        value="{{ form.last_name }}"
+                    {% endif %}
+                    name="customer[last_name]"
+                    placeholder="Last name">
+        </div>
+
+        <div class="register-form__field">
+            <label class="field__label visually-hidden" for="register-form-email">Email Address</label>
+            <input
+                    id="register-form-email"
+                    class="field-input"
+                    type="email"
+                    {% if form.email %}
+                        value="{{ form.email }}"
+                    {% endif %}
+                    name="customer[email]"
+                    placeholder="Email"
+            >
+            {%- if form.errors contains "email" -%}
+                <span class="register-form__error-message">Email can't be blank</span>
+            {%- endif -%}
+        </div>
+
+
+        <div class="register-form__field">
+            <label class="field__label visually-hidden" for="register-form-password">Password</label>
+            <input
+                    id="register-form-password"
+                    class="field-input"
+                    type="password"
+                    name="customer[password]"
+                    placeholder="Password"
+            >
+            {%- if form.errors contains "password" -%}
+                <span class="register-form__error-message">Password can't be blank</span>
+            {%- endif -%}
+        </div>
+
+        <button type="submit">Create</button>
+
+        {% endform %}
+
+    </div>
+</div>

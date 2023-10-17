@@ -1,0 +1,38 @@
+<div class="wrapper">
+
+{% paginate collection.products by 2 %}
+
+        <h2 class="collection-title">
+            {{ collection.title }}
+        </h2>
+
+        <div id="page-collection" class="grid two-columns collapse">
+            {% for product in collection.products %}
+
+                <div class="collection-card-inner">
+                    <a class="collection-image" href="{{ product.url | within: collection }}">
+                        <img src="{{ product.featured_image.src | image_url: width: 1200, height: 1200, crop: "center" }}" alt="{{ product.featured_image.alt | escape }}">
+                    </a>
+
+                    <div class="collection-title">
+                        <a class="collection-title h2" href="{{ product.url | within: collection }}">{{ product.title }}</a>
+                        <span class="price">{{ product.price | money_without_trailing_zeros }}</span>
+                    </div>
+
+                    {% if product.available %}
+                        <a class="text-link" href="{{ product.url }}">{{ 'product.card.more_info' | t }}</a>
+                    {% else %}
+                        {{ 'product.form.sold_out' | t }}
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>no matches</p>
+            {% endfor %}
+        </div>
+        {%- if paginate.pages > 1 -%}
+            <div class="collection-pagination">
+                {{ paginate | default_pagination }}
+            </div>
+        {%- endif -%}
+    {% endpaginate %}
+</div>

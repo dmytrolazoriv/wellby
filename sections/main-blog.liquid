@@ -1,0 +1,144 @@
+<div id="blog-page" class="wrapper">
+    {% paginate blog.articles by section.settings.articles_per_page %}
+        <h2 class="blog-title">{{ blog.title }}</h2>
+
+        {% if section.settings.show_filter %}
+            <ul class="article__filter filter-article">
+                {% for tag in blog.all_tags %}
+                    <li class="filter-article__item">
+                        {%- if current_tags contains tag -%}
+                            <span class="{%- if current_tags contains tag -%} active-tag{%- endif -%}">{{ tag | link_to_remove_tag: tag }}</span>
+                        {%- else -%}
+                            {{ tag | link_to_tag: tag }}
+                        {%- endif -%}
+                    </li>
+                {%- endfor %}
+            </ul>
+        {% endif %}
+
+    <ul class="article__list">
+        {% for article in blog.articles %}
+            <li class="article__item">
+                <div class="article__header">
+                    <h3 class="h2">
+                        <a href="{{ article.url }}">{{ article.title }}</a>
+                    </h3>
+                    <p>Author of the publication: <span>{{ article.author }}</span></p>
+                    <p>Publication date: {{ article.created_at | date: '%B %d, %Y' }}</p>
+                </div>
+                <div class="article__content">
+                    <a href="{{ article.url }}">
+                        <img
+                            src="{{ article.image | image_url: width: 600 }}"
+                            alt="{{ article.image.alt }}"
+                            loading="lazy"
+                        >
+                    </a>
+                    {% comment %}{% if article.excerpt.size > 0 %}
+                        {{ article.excerpt }}
+                    {% else %}
+                        <p class="article__text">{{ article.content | strip_html | truncatewords: 50 }}</p>
+                    {% endif %}{% endcomment %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="article__pagination">
+        {% if paginate.pages > 1 %}
+            {{ paginate | default_pagination }}
+        {% endif %}
+    </div>
+
+        <ul class="swiper products-slider">
+            {%- for block in section.blocks -%}
+                <a href="{{ block.settings.product.url }}">
+                    <h2 class="products-slider__title">{{ block.settings.product.title }}</h2>
+                </a>
+                <div class="swiper-wrapper">
+                    {%- for image in block.settings.product.images -%}
+                        <li class="swiper-slide products-slider__slide">
+                            <img src="{{ image.src | image_url: width: 1200 }}" alt="{{ image.alt }}" loading="lazy">
+                            <div class="products-slider__buttons slider-buttons">
+                                <a class="slider-buttons__button-pin" href="{{ block.settings.social_pinterest_link | escape }}" target="_blank">{% render 'pinterest-icon' %}{{ 'blog.products_slider.pin_button' | t }}</a>
+                                <button type="button" class="slider-buttons__button-info">
+                                    {% render 'info-circle-icon' %}
+                                </button>
+                            </div>
+                        </li>
+                    {%- endfor -%}
+                </div>
+
+                {%- if block.settings.show_buttons -%}
+                    <div class="products-slider__button products-slider__button_next">{% render 'down-arrow' %}</div>
+                    <div class="products-slider__button products-slider__button_prev">{% render 'down-arrow' %}</div>
+                {%- endif -%}
+
+                {%- if block.settings.show_pagination -%}
+                    <div class="products-slider__pagination slider-pagination">
+                        {% render 'camera-icon' %}
+                        <div class="slider-pagination__pagination"></div>
+                    </div>
+                {%- endif -%}
+            {%- endfor -%}
+        </ul>
+
+    {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 2,
+      "max": 10,
+      "default": 4,
+      "label": "Articles per page",
+      "info": "If there are less than 4 articles, pagination will be displayed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter",
+      "default": true,
+      "label": "Show filter"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product name",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        },
+        {
+          "type": "url",
+          "id": "social_pinterest_link",
+          "label": "Pinterest link"
+        },
+        {
+          "type": "header",
+          "content": "Slider settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_buttons",
+          "default": false,
+          "label": "Show slider buttons"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_pagination",
+          "default": false,
+          "label": "Show slider pagination"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

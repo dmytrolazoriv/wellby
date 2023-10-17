@@ -10,7 +10,6 @@
 
             <div class="below-title">
                 <p class="product-description">{{ product.description | strip_html | split: '.' | first | append: '.' }}</p>
-
                 {% if product.variants.size > 1 %}
                     <span class="accent-color">{{ 'product.card.options' | t: optionCount: product.variants.size }} &ndash;</span>
                 {% endif %}
@@ -28,5 +27,6 @@
                 <img src="{{ product.featured_image.src | image_url: width: 1200, height: 900, crop: "center" }}" alt="{{ product.featured_image.alt | escape }}">
             </a>
         </div>
+
     </div>
 </div>

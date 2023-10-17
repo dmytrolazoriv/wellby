@@ -1,0 +1,44 @@
+<div class="faq wrapper">
+
+        <div class="accordion-container">
+
+            {% for value in shop.metaobjects.faq.values %}
+
+                    <div class="ac">
+                        <h2 class="ac-header">
+                            <button type="button" class="ac-trigger">
+                                {{ value.question }}
+                            </button>
+                        </h2>
+                        <div class="ac-panel">
+                            <p class="ac-text">
+                                {{ value.answer }}
+                            </p>
+                        </div>
+                    </div>
+
+            {% endfor %}
+
+        {% comment %}    <ul>
+            {% for value in shop.metaobjects.faq.values %}
+                <li style="background-color: red; color: white;">{{ value.question }}</li>
+                <li style="background-color: red; color: white;">{{ value.answer }}</li>
+            {% endfor %}
+            </ul>{% endcomment %}
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Faq section",
+  "settings": [
+  ],
+  "blocks": [
+  ],
+  "presets": [
+    {
+      "name": "Faq section"
+    }
+  ]
+}
+{% endschema %}

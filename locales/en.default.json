@@ -12,6 +12,10 @@
     "404": {
       "title": "Sorry, we can’t find that page.",
       "back": "Back to Wellby"
+    },
+    "search": {
+      "search": "Search",
+      "no_results": "No results"
     }
   },
   "header": {
@@ -57,6 +61,29 @@
       "quantity": "Quantity",
       "submit": "Add to Cart",
       "sold_out": "Sold Out"
+    }
+  },
+  "page": {
+    "contact_form": {
+      "submit_button": "Send",
+      "posted_successfully": "Thank you for your contact",
+      "error_occurred": "An error has occurred"
+    }
+  },
+  "blog": {
+    "products_slider": {
+      "pin_button": "Save to pin"
+    },
+    "article": {
+      "moderated": "Please note, comments need to be approved before they are published.",
+      "post": "Post comment",
+      "back_to_blog": "&#8592; Back to blog",
+      "comments": "Leave a comment for {{ title }} article {{ url }}"
+    }
+  },
+  "customer": {
+    "register": {
+      "title": "Create account"
     }
   }
 }

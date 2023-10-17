@@ -1,0 +1,59 @@
+<div class="products-gallery wrapper">
+
+        <!-- Thumbnails -->
+        <ul class="swiper products-gallery-thumbs">
+            <div class="swiper-wrapper">
+                {%- for block in section.blocks -%}
+                    {%- for image in block.settings.product.images -%}
+                        <li class="products-gallery-thumbs__slide swiper-slide">
+                            <img src="{{ image.src | image_url: width: 600  }}" alt="{{ image.alt }}">
+                        </li>
+                    {%- endfor -%}
+                {%- endfor -%}
+            </div>
+            <button type="button" class="swiper-button-next products-gallery-thumbs__button products-gallery-thumbs__button-next"></button>
+            <button type="button" class="swiper-button-prev products-gallery-thumbs__button products-gallery-thumbs__button-prev"></button>
+            <div class="products-gallery__pagination swiper-pagination"></div>
+        </ul>
+
+        <!-- Main slide -->
+        <ul thumbsSlider="" class="swiper products-gallery-main">
+            <div class="swiper-wrapper">
+                {%- for block in section.blocks -%}
+                    {%- for image in block.settings.product.images -%}
+                        <li class="products-gallery-main__slide swiper-slide">
+                            <img src="{{ image.src | image_url: width: 600  }}" alt="{{ image.alt }}">
+                        </li>
+                    {%- endfor -%}
+                {%- endfor -%}
+            </div>
+            <div class="products-gallery__scrollbar swiper-scrollbar"></div>
+        </ul>
+
+</div>
+
+{% schema %}
+{
+  "name": "Products thumbs gallery",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products thumbs gallery"
+    }
+  ]
+}
+{% endschema %}

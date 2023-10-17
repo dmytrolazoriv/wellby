@@ -1,0 +1,261 @@
+{% comment %}<p style="background-color: red;">{{ block.settings.image_ratio }}</p>{% endcomment %}
+
+
+{%- capture styleTag -%}
+    <style>
+        .grid .right {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        .additional-media-container {
+            position: relative;
+        }
+
+        .additional-media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        @media only screen and (max-width: 1023px) {
+            .grid .right {
+                grid-column-start: 1;
+                grid-column-end: 2;
+                grid-row-start: 2;
+                grid-row-end: 3;
+            }
+        }
+    </style>
+{%- endcapture -%}
+
+{% unless section.blocks == blank %}
+<div id="page-product" class="wrapper grid two-columns collapse">
+
+    {% comment %}<span style="background-color: red; position: absolute;">{{ section.settings.direction }}</span>{% endcomment %}
+    {% comment %}<span style="background-color: red; position: absolute;">{{ product.options_with_values.name }}</span>{% endcomment %}
+
+{% comment %}    {% for option in product.options_with_values %}
+            <span style="background-color: red; position: absolute;">{{ option.name }}</span>
+    {% endfor %}
+{% endcomment %}
+
+    <div class="product-info product-info-section {{ section.settings.direction }}">
+        {% assign styleTagOutput = false %}
+        {%- for block in section.blocks -%}
+
+      {% style %}
+        .hotspot {
+        top: {{ block.settings.pin_top_position }}%;
+        left: {{ block.settings.pin_left_position }}%;
+        }
+      {% endstyle %}
+
+        {%- liquid
+            assign current_variant = product.selected_or_first_available_variant
+            assign featured_image = current_variant.featured_image | default: product.featured_image
+
+            if block.settings.image_ratio == 'portrait'
+                assign ratio = 0.8
+            elsif block.settings.image_ratio == 'adapt'
+                assign ratio = product.featured_image.aspect_ratio
+            endif
+            if ratio == 0 or ratio == nil
+                assign ratio = 1
+            endif
+        -%}
+
+        {% comment %}<p style="background-color: red; position: absolute;">{{ ratio }}</p>{% endcomment %}
+
+        {% unless styleTagOutput %}
+            {{ styleTag }}
+            {% assign styleTagOutput = true %}
+        {% endunless %}
+
+            {%- case block.type -%}
+            {%- when '@app' -%}
+                {% render block %}
+            {%- when 'product_title' -%}
+                <h2 class="product-title" {{ block.shopify_attributes }}>
+                    {{ product.title }}
+                    <span class="price">{{ product.price | money_without_trailing_zeros }}</span>
+                </h2>
+
+
+                <div class="below-title">
+                    {%- when 'product_description' -%}
+                    <div class="product-description" {{ block.shopify_attributes }}>{{ product.description }}</div>
+                    {% render 'add-to-cart-form' %}
+                </div>
+            </div>
+
+        {%- when 'product_image' -%}
+            {%- for image in product.images -%}
+
+                <div class="product-image" {{ block.shopify_attributes }}>
+                    <img src="{{ image.src | image_url: width: 1200, height: 1200, crop: "center" }}" alt="{{ image.alt | escape }}">
+
+              {%- for variant in product.variants -%}
+                {%- if variant.metafields.custom.product_image_with_pin.value and variant.image.id == image.id -%}
+                      {% render 'hotspot',
+                              product_url: variant.metafields.custom.image_with_pin_link.value.url,
+                              product_title: variant.metafields.custom.image_with_pin_link.value.title,
+                              product_price: variant.metafields.custom.image_with_pin_link.value.price,
+                              product_number: forloop.index0
+                      %}
+                  {%- endif -%}
+                {%- endfor -%}
+                </div>
+            {%- endfor -%}
+
+
+
+
+    {%- when 'additional_image' -%}
+        {% for image in product.images %}
+            <div class="additional-media-container" style="padding-bottom: {{ 1 | divided_by: ratio | times: 100 }}%;">
+                <img class="additional-media" src="{{ image.src | img_url: "master" }}" alt="{{ image.alt }}">
+            </div>
+        {% endfor %}
+        {%- endcase -%}
+        {%- endfor -%}
+    </div>
+        {% endunless %}
+
+
+
+{% schema %}
+{
+  "name": "t:sections.main-product.name",
+  "settings": [
+    {
+      "type": "radio",
+      "id": "direction",
+      "label": "Blocks alignment",
+       "options": [
+         {
+           "value": "left",
+           "label": "Left"
+         },
+         {
+           "value": "right",
+           "label": "Right"
+         }
+       ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_title",
+      "name": "Product title",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "product_description",
+      "name": "Product description",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "product_image",
+      "name": "Product image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "pin_top_position",
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "Position from top edge",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "pin_left_position",
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "Position from left edge",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Remaining settings of pin",
+          "info": "are set from the [admin panel](/admin/products/8818818941234/variants/47083925569842) as implemented through metafields"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy button",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "additional_image",
+      "name": "Additional product image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "additional_image",
+          "label": "Additional product image"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait"
+            },
+            {
+              "value": "square",
+              "label": "Square"
+            }
+          ],
+          "default": "adapt",
+          "label": "Image ratio"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.main-product.name"
+    }
+  ]
+}
+{% endschema %}

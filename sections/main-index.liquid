@@ -1,0 +1,52 @@
+<div id="page-index">
+    <div class="index-top wrapper valign-center ta-center">
+      {%- if section.settings.heading != blank -%}
+        <h1>{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p>{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="index-products wrapper">
+        {% for product in collections.frontpage.products limit: section.settings.products_to_show %}
+            {% render 'product-card', product: product %}
+        {% endfor %}
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main-index.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Artisanal goods.",
+      "label": "t:sections.main-index.settings.heading.label"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "For a life well lived.",
+      "label": "t:sections.main-index.settings.subheading.label"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.main-index.settings.products_to_show.label"
+    }
+  ],
+  "blocks": [
+  ],
+  "presets": [
+    {
+      "name": "t:sections.main-index.name"
+    }
+  ]
+}
+{% endschema %}

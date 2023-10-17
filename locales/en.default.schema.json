@@ -1,0 +1,52 @@
+{
+  "sections": {
+    "main-index": {
+      "name": "Homepage",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "subheading": {
+          "label": "Subheading"
+        },
+        "products_to_show": {
+          "label": "Maximum products to show"
+        }
+      }
+    },
+    "main-product": {
+      "name": "Product"
+    },
+    "header": {
+      "name": "Header"
+    },
+    "footer": {
+      "name": "Footer"
+    },
+    "main-list-collections": {
+      "name": "Collections list page"
+    }
+  },
+  "settings_schema": {
+    "social_media": {
+      "name": "Social media",
+      "settings": {
+        "header": {
+          "content": "Social account"
+        },
+        "social_facebook_link": {
+          "label": "Facebook",
+          "info": "https://facebook.com/test"
+        },
+        "social_instagram_link": {
+          "label": "Instagram",
+          "info": "https://instagram.com/test"
+        },
+        "social_twitter_link": {
+          "label": "Twitter",
+          "info": "https://twitter.com/test"
+        }
+      }
+    }
+  }
+}

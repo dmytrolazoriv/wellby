@@ -1,0 +1,85 @@
+<div class="section-products-slider wrapper">
+    <ul class="swiper products-slider">
+
+            <div class="swiper-wrapper">
+                {%- for block in section.blocks -%}
+
+                    <li class="swiper-slide products-slider__slide">
+                        <a href="{{ block.settings.product.url }}">
+                            <h2 class="products-slider__title">{{ block.settings.product.title }}</h2>
+                        </a>
+                        <img src="{{ block.settings.product.featured_image | image_url: width: 600 }}" alt="{{ block.settings.product.featured_image.alt }}" loading="lazy">
+                        <div class="products-slider__buttons slider-buttons">
+                            <a class="slider-buttons__button-pin" href="{{ block.settings.social_pinterest_link | escape }}" target="_blank">{% render 'pinterest-icon' %}{{ 'blog.products_slider.pin_button' | t }}</a>
+                            <button type="button" class="slider-buttons__button-info">
+                                {% render 'info-circle-icon' %}
+                            </button>
+                        </div>
+                        {% comment %}{% render 'hotspot',
+                                product_url: block.settings.product.url,
+                                product_title: block.settings.product.title,
+                                product_price: block.settings.product.price,
+                                product_number: forloop.index0
+                        %}{% endcomment %}
+                    </li>
+                {%- endfor -%}
+            </div>
+
+            {%- if section.settings.show_buttons -%}
+                <div class="products-slider__button products-slider__button_next">{% render 'down-arrow' %}</div>
+                <div class="products-slider__button products-slider__button_prev">{% render 'down-arrow' %}</div>
+            {%- endif -%}
+
+            {%- if section.settings.show_pagination -%}
+                <div class="products-slider__pagination slider-pagination">
+                    {% render 'camera-icon' %}
+                    <div class="slider-pagination__pagination"></div>
+                </div>
+            {%- endif -%}
+
+    </ul>
+</div>
+
+{% schema %}
+{
+    "name": "Products slider",
+    "max_blocks": 10,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_buttons",
+        "default": false,
+        "label": "Show slider buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_pagination",
+        "default": false,
+        "label": "Show slider pagination"
+      }
+    ],
+  "blocks": [
+        {
+          "type": "product",
+          "name": "Product",
+              "settings": [
+                {
+                  "type": "product",
+                  "id": "product",
+                  "label": "Select product"
+                },
+                {
+                  "type": "url",
+                  "id": "social_pinterest_link",
+                  "label": "Pinterest link"
+              }
+          ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Products slider"
+      }
+    ]
+}
+{% endschema %}

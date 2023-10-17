@@ -1,0 +1,189 @@
+<div class="wrapper">
+    <article class="article">
+
+        {%- for block in section.blocks -%}
+            {%- case block.type -%}
+                {%- when '@app' -%}
+                <div class="article__app" {{ block.shopify_attributes }}>
+                        {% render block %}
+                </div>
+                {%- when 'article_image' -%}
+                <div class="article__image" {{ block.shopify_attributes }}>
+                    <img src="{{ article.image.src | image_url: width: 600  }}" alt="article.image.alt">
+                </div>
+            {%- when 'article_title' -%}
+                <h2 class="article__title" {{ block.shopify_attributes }}>
+                    {{ article.title }}
+                </h2>
+            {%- when 'article_author' -%}
+                <div class="article__author" {{ block.shopify_attributes }}>
+                    {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+                    {{ article.author }}
+                </div>
+            {%- when 'article_date' -%}
+                <div class="article__date" {{ block.shopify_attributes }}>
+                    {% capture date %}<time datetime="{{ article.created_at | date: '%B %d, %Y' }}">{{ article.created_at | date: '%B %d, %Y' }}</time>{% endcapture %}
+                    {{ date }}
+                </div>
+            {%- when 'article_content' -%}
+                <div class="article__content-short" {{ block.shopify_attributes }}>
+                    {%- unless block.settings.show_more -%}
+                        <p>{{ article.content }}</p>
+                    {%- endunless -%}
+
+                    {%- if block.settings.show_more -%}
+                     <p>{{ article.content | truncate: block.settings.truncate_content, ". . . " }}<a class="readmore" href="#">Show More <span>&#62;</span></a></p>
+                    {%- endif -%}
+                </div>
+                <div class="article__content-full" style="display: none;" {{ block.shopify_attributes }}>
+                    {%- if block.settings.show_more -%}
+                    <p>{{ article.content }}<a class="readless" href="#"><span>&#60;</span> Show Less</a></p>
+                    {%- endif -%}
+                </div>
+
+                {% assign number_of_comments = article.comments_count %}
+                {% if comment and comment.created_at %}
+                    {% assign number_of_comments = article.comments_count %}
+                {% endif %}
+
+            {%- when 'article_comments' -%}
+                <div class="article__comments-wrapper" {{ block.shopify_attributes }}>
+                    {% if blog.comments_enabled? %}
+                        <h2>{{ number_of_comments }} comments</h2>
+                        {% paginate article.comments by 5 %}
+                            {% for comment in article.comments %}
+                                <div>
+                                    <div>{{ comment.content }}</div>
+                                    {{ comment.author }} @ {{ comment.created_at }}
+                                </div>
+                            {% endfor %}
+                            {% if paginate.pages > 1 %}
+                                {{ paginate | default_pagination }}
+                            {% endif %}
+                        {% endpaginate %}
+                    {% endif %}
+                </div>
+
+                {%- when 'article_form' -%}
+                    <div class="article__form-wrapper article-form" {{ block.shopify_attributes }}>
+                        <p class="h2" title="{{ 'blog.article.comments' | t: title: article.title, url: article.url }}">Leave a comment</p>
+                        {% form 'new_comment', article %}
+                            {{ form.errors | default_errors }}
+
+                            <div class="article-form__fields">
+                                <div class="article-form__field">
+                                    <label class="field__label visually-hidden" for="CommentAuthor">name</label>
+                                    <input class="field-input" type="text" name="comment[author]" id="CommentAuthor" placeholder="name" value="{{ form.author }}" autocapitalize="words">
+                                </div>
+
+                                <div class="article-form__field">
+                                    <label class="field__label visually-hidden" for="CommentEmail">email</label>
+                                    <input class="field-input" type="email" name="comment[email]" id="CommentEmail" placeholder="email" value="{{ form.email }}" autocorrect="off" autocapitalize="off">
+                                </div>
+                            </div>
+
+                            <div class="article-form__field">
+                                <label class="field__label visually-hidden" for="CommentBody">message</label>
+                                <textarea class="text-area field-input" name="comment[body]" id="CommentBody" placeholder="message">{{ form.body }}</textarea>
+                            </div>
+
+                            <button class="article-form__button" type="submit">{{ 'blog.article.post' | t }}</button>
+
+                            {%- if blog.moderated? -%}
+                                <p class="article-form__comment-warning">{{ 'blog.article.moderated' | t }}</p>
+                            {%- endif -%}
+                        {% endform %}
+                    </div>
+
+                {%- when 'article_button' -%}
+                    <a href="{{ blog.url }}" {{ block.shopify_attributes }}>{{ 'blog.article.back_to_blog' | t: title: article.title }}</a>
+            {%- endcase -%}
+        {%- endfor -%}
+
+    </article>
+</div>
+
+{% schema %}
+{
+  "name": "Main article",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "article_image",
+      "name": "Article image",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_title",
+      "name": "Article title",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_author",
+      "name": "Article author",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_date",
+      "name": "Article date",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_content",
+      "name": "Article content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_more",
+          "label": "Show more/less buttons",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "truncate_content",
+          "min": 0,
+          "max": 1000,
+          "step": 50,
+          "unit": "ch",
+          "label": "Truncate content to number of characters",
+          "default": 300
+        }
+      ]
+    },
+    {
+      "type": "article_comments",
+      "name": "Article comments",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_form",
+      "name": "Article form",
+      "limit": 1,
+      "settings": [
+      ]
+    },
+    {
+      "type": "article_button",
+      "name": "Article button",
+      "limit": 1,
+      "settings": [
+      ]
+    }
+  ]
+}
+{% endschema %}
