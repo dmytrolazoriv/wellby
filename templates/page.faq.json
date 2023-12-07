@@ -1,11 +1,84 @@
 {
-  "name": "Faq",
   "sections": {
     "main": {
-      "type": "faq"
+      "type": "faq",
+      "blocks": {
+        "9fe9272a-2cec-4ba5-ad40-d3707b6472a3": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        },
+        "34617ca8-8c27-49ec-a4fc-e0d3b2583b95": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        },
+        "29379bb8-dd2b-4282-a66a-cb93ea188a4b": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "9fe9272a-2cec-4ba5-ad40-d3707b6472a3",
+        "34617ca8-8c27-49ec-a4fc-e0d3b2583b95",
+        "29379bb8-dd2b-4282-a66a-cb93ea188a4b"
+      ],
+      "settings": {
+      }
+    },
+    "dea74f25-36f8-4bbd-ad94-872ec29c01be": {
+      "type": "products-slider",
+      "blocks": {
+        "acc4f4c3-55eb-4518-ab70-6e27543021a4": {
+          "type": "product",
+          "settings": {
+            "product": "essential-oils",
+            "social_pinterest_link": "shopify:\/\/products\/essential-oils"
+          }
+        },
+        "7e0ec3ed-72c6-414a-a462-6ad438d5e3df": {
+          "type": "product",
+          "settings": {
+            "product": "handmade-ceramics",
+            "social_pinterest_link": "shopify:\/\/products\/handmade-ceramics"
+          }
+        },
+        "432f6f87-5e7f-41fb-80bd-844a2ef4a6d0": {
+          "type": "product",
+          "settings": {
+            "product": "looseleaf-tea",
+            "social_pinterest_link": "shopify:\/\/products\/looseleaf-tea"
+          }
+        },
+        "7f35129a-5aa8-45f5-a5e4-fb3f624feeb0": {
+          "type": "product",
+          "settings": {
+            "product": "silk-monstera-frond",
+            "social_pinterest_link": "shopify:\/\/products\/silk-monstera-frond"
+          }
+        }
+      },
+      "block_order": [
+        "acc4f4c3-55eb-4518-ab70-6e27543021a4",
+        "7e0ec3ed-72c6-414a-a462-6ad438d5e3df",
+        "432f6f87-5e7f-41fb-80bd-844a2ef4a6d0",
+        "7f35129a-5aa8-45f5-a5e4-fb3f624feeb0"
+      ],
+      "settings": {
+        "show_buttons": false,
+        "show_pagination": false
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "dea74f25-36f8-4bbd-ad94-872ec29c01be"
   ]
 }

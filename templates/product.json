@@ -1,8 +1,52 @@
 {
-  "name": "Product",
   "sections": {
     "main": {
-      "type": "main-product"
+      "type": "main-product",
+      "blocks": {
+        "62062986-0be7-4016-84d8-c1cf6d8cea69": {
+          "type": "product_title",
+          "settings": {
+          }
+        },
+        "bf735254-53bd-4bb9-81ea-d52579fc7760": {
+          "type": "product_description",
+          "settings": {
+          }
+        },
+        "97e8010b-3ff5-469d-b1ca-a293369776f9": {
+          "type": "variant_picker",
+          "settings": {
+          }
+        },
+        "68b95a3b-ba8d-470e-9968-8fbe8e218cbe": {
+          "type": "quantity_selector",
+          "settings": {
+          }
+        },
+        "d0f28d87-6e59-48c9-8d59-93f067e76ae4": {
+          "type": "buy_buttons",
+          "settings": {
+          }
+        },
+        "90188630-b57a-45fe-8693-908b61bca05c": {
+          "type": "product_image",
+          "settings": {
+            "pin_top_position": 50,
+            "pin_left_position": 50
+          }
+        }
+      },
+      "block_order": [
+        "62062986-0be7-4016-84d8-c1cf6d8cea69",
+        "bf735254-53bd-4bb9-81ea-d52579fc7760",
+        "97e8010b-3ff5-469d-b1ca-a293369776f9",
+        "68b95a3b-ba8d-470e-9968-8fbe8e218cbe",
+        "d0f28d87-6e59-48c9-8d59-93f067e76ae4",
+        "90188630-b57a-45fe-8693-908b61bca05c"
+      ],
+      "settings": {
+        "direction": "left"
+      }
     }
   },
   "order": [
