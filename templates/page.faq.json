@@ -1,8 +1,37 @@
 {
-  "name": "Faq",
   "sections": {
     "main": {
-      "type": "faq"
+      "type": "faq",
+      "blocks": {
+        "9fe9272a-2cec-4ba5-ad40-d3707b6472a3": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        },
+        "34617ca8-8c27-49ec-a4fc-e0d3b2583b95": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        },
+        "29379bb8-dd2b-4282-a66a-cb93ea188a4b": {
+          "type": "faq",
+          "settings": {
+            "question": "<p>Lorem ipsum dolor sit amet? <\/p>",
+            "answer": "<p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "9fe9272a-2cec-4ba5-ad40-d3707b6472a3",
+        "34617ca8-8c27-49ec-a4fc-e0d3b2583b95",
+        "29379bb8-dd2b-4282-a66a-cb93ea188a4b"
+      ],
+      "settings": {
+      }
     }
   },
   "order": [
